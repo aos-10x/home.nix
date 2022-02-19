@@ -1,0 +1,51 @@
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# don't put duplicate lines or lines starting with space in the history.
+HISTCONTROL=ignoreboth
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+shopt -s globstar
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+# Setup GPG agent for Yubikey and SSH
+export GPG_TTY=$(tty)
+export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+gpgconf --launch gpg-agent
+
+# Show git branch
+parse_git_branch () {
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
+show_jobs () {
+	[[ "$1" != 0 ]] && echo "[$1] " || echo "";
+}
+
+# Prompt
+TEAL="\[\033[96m\]"
+GREEN="\[\033[32m\]"
+YELLOW="\[\033[33m\]"
+BLUE="\[\033[34m\]"
+CLEAR="\[\033[00m\]"
+PS1="\$(show_jobs \j)$GREEN\u@\h:$BLUE\w$YELLOW\$(parse_git_branch)$CLEAR \$ "

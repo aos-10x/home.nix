@@ -1,0 +1,25 @@
+[user]
+  name = Aos Dabbagh
+  email = aosdab@gmail.com
+
+[alias]
+  s = status
+  cm = commit -m
+  co = checkout
+  d = diff
+  di = diff --no-index
+  ds = diff --staged
+  l = log --stat --abbrev-commit
+  ll = log --graph --all --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ar%Creset'
+  root = rev-parse --show-toplevel
+  sha = !sh -c 'git rev-parse --short ${1:-HEAD}' --
+  # For saving normal diffs to email or later: 'git patch > changes.patch'
+  patch = !git --no-pager diff --no-color
+  alias = config --get-regexp alias
+
+[core]
+  editor = nvim
+[diff]
+  tool = vimdiff
+[gpg]
+  program = /usr/bin/gpg
