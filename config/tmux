@@ -34,23 +34,20 @@ bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
 bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xclip -sel clip -i"
 
 unbind-key -T copy-mode-vi H
-bind-key -T copy-mode-vi H send -X start-of-line
 unbind-key -T copy-mode-vi L
+bind-key -T copy-mode-vi H send -X start-of-line
 bind-key -T copy-mode-vi L send -X end-of-line
-
 # Color highlighting in copy-mode
 setw -g mode-style "fg=black,bg=colour178"
 
-# 'Tc' allows true color within vim, 'sitm' allows the same with italics
-#set-option -sa terminal-overrides ',xterm*:RGB'
-#set -as terminal-overrides ',xterm*:Tc:sitm=\E[3m'
-set-option -ga terminal-overrides ",foot:Tc"
-
+# Allow 'foot' terminal to get true-color
+set -ga terminal-overrides ",foot:Tc"
 # Set default terminal mode to 256 color
-#set -g default-terminal "tmux-256color"
+set -g default-terminal "tmux-256color"
 
 # neovim in tmux causes delay when pressing ESC, let's reduce it
 set -g escape-time 0 # ms
+set -g focus-events on
 
 # Create a new window and prompt for name
 bind C command-prompt "new-window -n '%%'"
@@ -63,13 +60,9 @@ set -g renumber-windows on
 set -g history-limit 5000
 
 ## Status bar
-# Colors
 set -g status-style bg=default
 set -g status-style fg=default
-## Left
 set -g status-left "[#S] "
-## Right
-# set -g status-right-length 35
 set -g status-right '#{?client_prefix,#[bg=blue]#[fg=bold]^A,}#[default] (#h) %a %b %d ┆ %I:%M %p'
 
 ## Window names

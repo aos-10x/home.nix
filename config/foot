@@ -8,7 +8,7 @@
 # title=foot
 # locked-title=no
 
-font=Fira Mono:size=12
+font=Fira Mono:size=10
 # font-bold=<bold variant of regular font>
 # font-italic=<italic variant of regular font>
 # font-bold-italic=<bold+italic variant of regular font>
@@ -64,26 +64,25 @@ bold-text-in-bright=yes
 # alternate-scroll-mode=yes
 
 [colors]
-
-regular0=2e3436
-regular1=cc0000
-regular2=4e9a06
-regular3=c4a000
-regular4=3465a4
-regular5=75507b
-regular6=06989a
-regular7=d3d7cf
-bright0=555753
-bright1=ef2929
-bright2=8ae234
-bright3=fce94f
-bright4=729fcf
-bright5=ad7fa8
-bright6=34e2e2
-bright7=eeeeec
 # alpha=1.0
-# foreground=dcdccc
-# background=111111
+background=282828
+foreground=ebdbb2
+regular0=282828
+regular1=cc241d
+regular2=98971a
+regular3=d79921
+regular4=458588
+regular5=b16286
+regular6=689d6a
+regular7=a89984
+bright0=928374
+bright1=fb4934
+bright2=b8bb26
+bright3=fabd2f
+bright4=83a598
+bright5=d3869b
+bright6=8ec07c
+bright7=ebdbb2
 
 ## Normal/regular colors (color palette 0-7)
 # regular0=222222  # black
