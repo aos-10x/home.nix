@@ -123,7 +123,6 @@ require('telescope').setup {
 --Add telescope shortcuts
 local tele_opts = { noremap = true, silent = true }
 vim.api.nvim_set_keymap('n', '<Tab>', [[<cmd>lua require('telescope.builtin').buffers()<CR>]], tele_opts)
-vim.api.nvim_set_keymap('n', '-', [[<cmd>lua require('telescope.builtin').file_browser()<CR>]], tele_opts)
 vim.api.nvim_set_keymap('n', '<leader>f', [[<cmd>lua require('telescope.builtin').find_files()<CR>]], tele_opts)
 vim.api.nvim_set_keymap('n', '<leader>g', [[<cmd>lua require('telescope.builtin').live_grep()<CR>]], tele_opts)
 
