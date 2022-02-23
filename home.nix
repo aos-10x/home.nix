@@ -10,12 +10,14 @@ in
   home.username = "aos";
   home.homeDirectory = "/home/aos";
 
-# Packages to install
+  # Packages to install
   home.packages = with pkgs; [
+    foot # wayland terminal
+
     python
+    rust-analyzer
 
     curl
-    foot
     htop
     jq
     neovim
@@ -24,7 +26,7 @@ in
     tmux
   ];
 
-# program configs
+  # program configs
   home.file.".bashrc".source = ./config/bashrc;
   home.file.".bash_aliases".source = ./config/bash_aliases;
 
