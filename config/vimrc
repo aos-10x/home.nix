@@ -64,6 +64,7 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'nvim-treesitter/nvim-treesitter-textobjects'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
+  Plug 'justinmk/vim-dirvish'
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-surround'
 
@@ -84,10 +85,14 @@ inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Tree-sitter based folding
+set nofoldenable " start file unfolded
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
-set foldlevelstart=99
 highlight! link Folded Special
+
+" Fold mappings
+noremap <Space> za
+noremap <expr> <Leader><Space> &foldlevel ? 'zM' : 'zR'
 
 lua << EOF
 -- highlight on yank
@@ -110,8 +115,8 @@ require('telescope').setup {
     mappings = {
       i = {
         ['<C-o>'] = require('telescope.actions.layout').toggle_preview,
-        ['<C-k>'] = require('telescope.actions.layout').toggle_preview,
-        ['<C-j>'] = require('telescope.actions.layout').toggle_preview,
+        ['<C-k>'] = require('telescope.actions').move_selection_previous,
+        ['<C-j>'] = require('telescope.actions').move_selection_next,
       },
       n = {
         ['<C-o>'] = require('telescope.actions.layout').toggle_preview,
