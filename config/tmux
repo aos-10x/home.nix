@@ -66,8 +66,8 @@ set -g status-left "[#S] "
 set -g status-right '#{?client_prefix,#[bg=blue]#[fg=bold]^A,}#[default] (#h) %a %b %d ┆ %I:%M %p'
 
 ## Window names
-setw -g window-status-format " #I| #W#F "
-setw -g window-status-current-format " #I| #W#F "
+setw -g window-status-format " #I| #W#F"
+setw -g window-status-current-format " #I| #W#F"
 setw -g window-status-current-style "dim"
 
 # Active window title style

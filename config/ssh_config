@@ -1,10 +1,5 @@
 Match host * exec "gpg-connect-agent UPDATESTARTUPTTY /bye"
 
-Host github.com
-  User git
-  IdentityFile ~/.ssh/id_rsa_yk.pub
-  IdentitiesOnly yes
-
 Host devserver
   ForwardAgent yes
   ForwardX11 yes

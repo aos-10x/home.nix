@@ -1,6 +1,6 @@
 [user]
   name = Aos Dabbagh
-  email = aosdab@gmail.com
+  email = @email@
 
 [alias]
   s = status
@@ -10,16 +10,26 @@
   di = diff --no-index
   ds = diff --staged
   l = log --stat --abbrev-commit
-  ll = log --graph --all --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ar%Creset'
+  lg = log --graph --date=relative --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%an %ad)%Creset'
   root = rev-parse --show-toplevel
   sha = !sh -c 'git rev-parse --short ${1:-HEAD}' --
   # For saving normal diffs to email or later: 'git patch > changes.patch'
   patch = !git --no-pager diff --no-color
   alias = config --get-regexp alias
 
+[status]
+  # display submodule rev change summaries in status
+  submoduleSummary = true
+  # recursively traverse untracked directories to display all contents
+  showUntrackedFiles = all
+
+[color]
+  ui = auto
 [core]
   editor = nvim
 [diff]
   tool = vimdiff
+[pull]
+  ff = only
 [gpg]
   program = /usr/bin/gpg
