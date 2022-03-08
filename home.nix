@@ -20,7 +20,7 @@ in
   # Packages to install
   nixpkgs.config.allowUnfree = true;
   home.packages = with pkgs; [
-    foot # wayland terminal
+    # foot # wayland terminal
     gnome.gnome-books
     pkgsUnstable.discord
     pass
@@ -31,7 +31,7 @@ in
     curl
     htop
     jq
-    ripgrep
+    qrencode
     tldr
     tmux
     tree

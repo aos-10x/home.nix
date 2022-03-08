@@ -47,3 +47,14 @@ YELLOW="\[\033[33m\]"
 BLUE="\[\033[34m\]"
 CLEAR="\[\033[00m\]"
 PS1="\$(show_jobs \j)$TEAL\u@\h:$BLUE\w$YELLOW\$(show_git_branch)$CLEAR \$ "
+
+# Some environment variables
+export SYSTEMD_LESS='FRXMK'; # allow journalctl to wrap long lines
+export FZF_DEFAULT_OPTS='--height 30% --border -m'
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+if command -v fzf-share >/dev/null; then
+  source "$(fzf-share)/key-bindings.bash"
+  source "$(fzf-share)/completion.bash"
+fi

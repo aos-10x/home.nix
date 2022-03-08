@@ -1,9 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  home.sessionVariables = {
-    SYSTEMD_LESS = "FRXMK"; # allow journalctl to wrap long lines
-  };
+  home.packages = with pkgs; [ fzf ripgrep ];
 
   home.file = {
     "bashrc" = {
