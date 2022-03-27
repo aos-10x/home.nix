@@ -18,5 +18,10 @@
       source = ./inputrc;
       target = ".inputrc";
     };
+
+    "bash_functions" = {
+      source = ./bash_functions;
+      target = ".bash_functions";
+    };
   };
 }

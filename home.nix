@@ -21,9 +21,11 @@ in
   nixpkgs.config.allowUnfree = true;
   home.packages = with pkgs; [
     # foot # wayland terminal
+    st
     gnome.gnome-books
     pkgsUnstable.discord
     pass
+    vagrant
 
     python
     rust-analyzer
@@ -50,6 +52,4 @@ in
       email = "${email}";
     };
   };
-
-  home.file.".config/foot/foot.ini".source = ./config/foot;
 }

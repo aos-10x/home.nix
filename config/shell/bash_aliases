@@ -17,3 +17,5 @@ alias l='ls -CF'
 alias open='xdg-open'
 
 alias vim='nvim'
+
+# vim: set ft=sh:

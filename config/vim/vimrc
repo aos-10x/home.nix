@@ -226,6 +226,9 @@ local rust_analyzer = {
       cargo = {
         allFeatures = true,
       },
+      procMacro = {
+        enable = true,
+      },
       rustfmt = {
         enableRangeFormatting = true,
       }
