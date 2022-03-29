@@ -4,6 +4,11 @@
   home.packages = with pkgs; [ fzf ripgrep ];
 
   home.file = {
+    "profile" = {
+      source = ./profile;
+      target = ".profile";
+    };
+
     "bashrc" = {
       source = ./bashrc;
       target = ".bashrc";
@@ -14,14 +19,14 @@
       target = ".bash_aliases";
     };
 
-    "inputrc" = {
-      source = ./inputrc;
-      target = ".inputrc";
-    };
-
     "bash_functions" = {
       source = ./bash_functions;
       target = ".bash_functions";
+    };
+
+    "inputrc" = {
+      source = ./inputrc;
+      target = ".inputrc";
     };
   };
 }
