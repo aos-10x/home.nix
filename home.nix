@@ -52,4 +52,6 @@ in
       email = "${email}";
     };
   };
+
+  home.file.".config/nix/nix.conf".source = ./config/nix.conf;
 }
