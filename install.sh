@@ -40,7 +40,7 @@ sym_repo () {
   echo "INFO: Symlinking repository to ~/.config/nixpkgs"
 
   rm -rfv ~/.config/nixpkgs
-  ln -sf ~/code/nixfiles ~/.config/nixpkgs
+  ln -s "$(realpath .)" ~/.config/nixpkgs
 }
 
 switch () {

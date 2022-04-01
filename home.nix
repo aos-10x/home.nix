@@ -1,10 +1,11 @@
 { config, pkgs, ... }:
 
 let
-  python = import ./python;
-  pkgsUnstable = import <nixpkgs-unstable> { config.allowUnfree = true; };
   buildFromFlake = { repo, system }: (builtins.getFlake repo).defaultPackage."${system}";
+  pkgsUnstable = import <nixpkgs-unstable> { config.allowUnfree = true; };
   secrets = import ./secrets.nix;
+
+  python = import ./python;
 in
 {
   home.stateVersion = "22.05";
@@ -22,7 +23,6 @@ in
   nixpkgs.config.allowUnfree = true;
   home.packages = with pkgs; [
     # foot # wayland terminal
-    st
     gnome.gnome-books
     pass
     vagrant
