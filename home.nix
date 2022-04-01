@@ -3,7 +3,8 @@
 let
   python = import ./python;
   pkgsUnstable = import <nixpkgs-unstable> { config.allowUnfree = true; };
-  email = "aosdab@gmail.com";
+  buildFromFlake = { repo, system }: (builtins.getFlake repo).defaultPackage."${system}";
+  secrets = import ./secrets.nix;
 in
 {
   home.stateVersion = "22.05";
@@ -23,12 +24,12 @@ in
     # foot # wayland terminal
     st
     gnome.gnome-books
-    pkgsUnstable.discord
     pass
     vagrant
 
     python
     rust-analyzer
+    nixpkgs-fmt
 
     curl
     htop
@@ -37,11 +38,19 @@ in
     tldr
     tmux
     tree
+
+    (callPackage buildFromFlake { repo = "github:aos/gotors"; })
   ];
 
   # program configs
   home.file.".ssh/id_rsa_yk.pub".source = ./config/ssh_id_rsa_yk.pub;
-  home.file.".ssh/config".source = ./config/ssh_config;
+  home.file.".ssh/config" = {
+    source = pkgs.substituteAll {
+      src = ./config/ssh_config;
+      hostName = "${secrets.hostName}";
+      port = "${secrets.port}";
+    };
+  };
   home.file.".gnupg/gpg-agent.conf".source = ./config/gpg-agent.conf;
 
   home.file.".tmux.conf".source = ./config/tmux;
@@ -49,7 +58,7 @@ in
   home.file.".gitconfig" = {
     source = pkgs.substituteAll {
       src = ./config/gitconfig;
-      email = "${email}";
+      email = "${secrets.emailAddress}";
     };
   };
 

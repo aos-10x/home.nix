@@ -1,6 +1,8 @@
 Match host * exec "gpg-connect-agent UPDATESTARTUPTTY /bye"
 
 Host devserver
+  HostName @hostName@
+  Port @port@
   ForwardAgent yes
   ForwardX11 yes
   # Forward yubikey

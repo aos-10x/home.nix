@@ -1,4 +1,4 @@
-with import <nixpkgs> {};
+with import <nixpkgs> { };
 
 let
   base-python-packages = python-packages: with python-packages; [
@@ -7,4 +7,4 @@ let
     jedi-language-server
   ];
 in
-  python39.withPackages base-python-packages
+python39.withPackages base-python-packages

@@ -11,11 +11,17 @@ Managing my dotfiles using Nix
 - Symlink repository to `~/.config/nixpkgs/`
 - Run `home-manager switch`
 
+Alternatively, run `./install.sh`
+
 ### Yubikey
 
 We will need the package `scdaemon` that provides smart card support for GPG.
 
+### Secrets
+
+Secrets are stored in a `secrets.nix` file that does not get checked in. It
+should contain variables that will be used by various configurations.
+
 ### TODO
 
 - [ ] Alternate package sets based on host
-- [ ] Secret management

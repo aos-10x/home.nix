@@ -75,6 +75,7 @@ call plug#end()
 
 set termguicolors
 colorscheme alchemist
+let g:alchemist_transparent_bg = v:true
 
 let mapleader = ','
 set inccommand=nosplit
