@@ -40,12 +40,12 @@ export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 gpgconf --launch gpg-agent
 
 # Prompt colors
-BRIGHT_BLUE="\[\033[34;1m\]"
-CYAN="\[\033[36m\]"
-GREEN="\[\033[32m\]"
-TEAL="\[\033[96m\]"
-YELLOW="\[\033[33m\]"
-CLEAR="\[\033[0m\]"
+BRIGHT_BLUE="\[\e[34;1m\]"
+CYAN="\[\e[36m\]"
+GREEN="\[\e[32m\]"
+TEAL="\[\e[96m\]"
+YELLOW="\[\e[33m\]"
+CLEAR="\[\e[0m\]"
 
 # Show git branch
 _show_git_branch () {
@@ -54,19 +54,14 @@ _show_git_branch () {
 
 # Show background jobs and if we are in a nix shell
 _show_nix_and_jobs () {
-  local n
-  local j
+  local n=""
   if [[ -n $IN_NIX_SHELL ]] || [[ "$PATH" == *"/nix/store"* ]]; then
-    n="N";
-  else
-    n="";
+    n='N';
   fi
   if [[ "$1" != 0 ]]; then
-    j="$1";
-  else
-    j="";
+    n+="$1";
   fi
-  [[ "$n$j" != "" ]] && echo -e "[$BRIGHT_BLUE$n$CLEAR$j] " || echo "";
+  [[ "$n" != "" ]] && echo -e "[${n}] " || echo "";
 }
 
 PS1="\$(_show_nix_and_jobs \j)$GREEN\u@\h:$CYAN\w$YELLOW\$(_show_git_branch)$CLEAR \$ "
