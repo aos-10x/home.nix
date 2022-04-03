@@ -52,6 +52,7 @@ in
     };
   };
   home.file.".gnupg/gpg-agent.conf".source = ./config/gpg-agent.conf;
+  home.file.".gdbinit".source = ./config/gdbinit;
 
   home.file.".tmux.conf".source = ./config/tmux;
 
