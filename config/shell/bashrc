@@ -79,3 +79,5 @@ fi
 
 # Add goto shortcut
 eval "$(gotors init)"
+# Add direnv
+eval "$(direnv hook bash)"

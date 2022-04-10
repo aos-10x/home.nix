@@ -32,6 +32,7 @@ in
     nixpkgs-fmt
 
     curl
+    direnv
     htop
     jq
     qrencode
