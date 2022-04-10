@@ -25,7 +25,6 @@ in
     # foot # wayland terminal
     gnome.gnome-books
     pass
-    vagrant
 
     python
     rust-analyzer

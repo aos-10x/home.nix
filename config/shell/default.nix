@@ -3,17 +3,16 @@
 {
   home.packages = with pkgs; [ fzf ripgrep ];
 
+  # allow home-manager to manage shell
+  programs.bash = {
+    enable = true;
+    # import my bashrc
+    bashrcExtra = ''
+     . ${builtins.toString ./bashrc}
+    '';
+  };
+
   home.file = {
-    "profile" = {
-      source = ./profile;
-      target = ".profile";
-    };
-
-    "bashrc" = {
-      source = ./bashrc;
-      target = ".bashrc";
-    };
-
     "bash_aliases" = {
       source = ./bash_aliases;
       target = ".bash_aliases";
@@ -29,4 +28,6 @@
       target = ".inputrc";
     };
   };
+
+  targets.genericLinux.enable = true;
 }
