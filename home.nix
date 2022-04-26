@@ -35,7 +35,7 @@ in
     htop
     jq
     qrencode
-    tldr
+    tealdeer
     tmux
     tree
 
