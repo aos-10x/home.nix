@@ -4,14 +4,14 @@
 
 set -euo pipefail
 
-if command -v nix-shell &> /dev/null && \
-  nix-shell -p nix-info --run "nix-info -m" &> /dev/null; then
-  echo "Nix already installed... exiting."
-  exit 0
-fi
-
 # Install nix
 install_nix () {
+  if command -v nix-shell &> /dev/null && \
+    nix-shell -p nix-info --run "nix-info -m" &> /dev/null; then
+    echo "Nix already installed... exiting."
+    return
+  fi
+
   echo "INFO: installing Nix..."
   # We need to automate this
   sh <(curl -L https://nixos.org/nix/install) --daemon
@@ -71,8 +71,8 @@ install_docker () {
   sudo usermod -aG docker $USER
 }
 
-# install_docker
-install_nix
+#install_docker
+#install_nix
 install_home_manager
 sym_repo
 switch

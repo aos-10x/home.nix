@@ -8,7 +8,7 @@
     enable = true;
     # import my bashrc
     bashrcExtra = ''
-     . ${builtins.toString ./bashrc}
+      . ${builtins.toString ./bashrc}
     '';
   };
 

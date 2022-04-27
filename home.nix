@@ -23,8 +23,8 @@ in
   nixpkgs.config.allowUnfree = true;
   home.packages = with pkgs; [
     # foot # wayland terminal
-    gnome.gnome-books
-    pass
+    # gnome.gnome-books
+    # pass
 
     python
     rust-analyzer
@@ -39,20 +39,25 @@ in
     tmux
     tree
 
+    # Infra tools
+    packer
+    terraform
+    awscli
+
     (callPackage buildFromFlake { repo = "github:aos/gotors"; })
   ];
 
   # program configs
-  home.file.".ssh/id_rsa_yk.pub".source = ./config/ssh_id_rsa_yk.pub;
-  home.file.".ssh/config" = {
-    source = pkgs.substituteAll {
-      src = ./config/ssh_config;
-      hostName = "${secrets.hostName}";
-      port = "${secrets.port}";
-    };
-  };
-  home.file.".gnupg/gpg-agent.conf".source = ./config/gpg-agent.conf;
-  home.file.".gdbinit".source = ./config/gdbinit;
+  # home.file.".ssh/id_rsa_yk.pub".source = ./config/ssh_id_rsa_yk.pub;
+  # home.file.".ssh/config" = {
+  #   source = pkgs.substituteAll {
+  #     src = ./config/ssh_config;
+  #     hostName = "${secrets.hostName}";
+  #     port = "${secrets.port}";
+  #   };
+  # };
+  # home.file.".gnupg/gpg-agent.conf".source = ./config/gpg-agent.conf;
+  # home.file.".gdbinit".source = ./config/gdbinit;
 
   home.file.".tmux.conf".source = ./config/tmux;
 
