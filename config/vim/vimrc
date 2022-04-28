@@ -59,6 +59,7 @@ endif
 
 call plug#begin(stdpath('data') . '/plugged')
   Plug 'neovim/nvim-lspconfig'
+  Plug 'williamboman/nvim-lsp-installer'
   Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
   Plug 'nvim-treesitter/nvim-treesitter-textobjects'
   Plug 'nvim-lua/plenary.nvim'
@@ -74,9 +75,7 @@ call plug#begin(stdpath('data') . '/plugged')
 
 call plug#end()
 
-set notermguicolors
 colorscheme alchemist
-let g:alchemist_transparent_bg = v:true
 
 " Switch between dark and light theme
 function! SwitchTheme()
@@ -252,7 +251,10 @@ local rust_analyzer = {
 local servers = {
   ['jedi_language_server'] = {},
   ['rust_analyzer'] = rust_analyzer,
+  ['terraformls'] = {},
 }
+
+require('nvim-lsp-installer').setup {}
 
 local nvim_lsp = require('lspconfig')
 for server, config in pairs(servers) do

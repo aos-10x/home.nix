@@ -22,10 +22,6 @@ in
   # Packages to install
   nixpkgs.config.allowUnfree = true;
   home.packages = with pkgs; [
-    # foot # wayland terminal
-    # gnome.gnome-books
-    # pass
-
     python
     rust-analyzer
     nixpkgs-fmt
