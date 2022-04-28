@@ -74,7 +74,7 @@ call plug#begin(stdpath('data') . '/plugged')
 
 call plug#end()
 
-set termguicolors
+set notermguicolors
 colorscheme alchemist
 let g:alchemist_transparent_bg = v:true
 
@@ -259,5 +259,3 @@ for server, config in pairs(servers) do
   nvim_lsp[server].setup(vim.tbl_deep_extend("force", defaults, config))
 end
 EOF
-
-set notermguicolors

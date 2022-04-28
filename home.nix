@@ -40,10 +40,12 @@ in
     tree
 
     # Infra tools
+    ansible
+    awscli2
     packer
     terraform
-    awscli
 
+    # custom flakes
     (callPackage buildFromFlake { repo = "github:aos/gotors"; })
   ];
 
