@@ -77,18 +77,6 @@ call plug#end()
 
 colorscheme alchemist
 
-" Switch between dark and light theme
-function! SwitchTheme()
-  if &background ==# "dark"
-    set background=light
-    colorscheme psionic
-  else
-    set background=dark
-    colorscheme alchemist
-  endif
-endfunction
-command! Theme call SwitchTheme()
-
 let mapleader = ','
 set inccommand=nosplit
 
@@ -96,6 +84,9 @@ set completeopt=menuone,noinsert,noselect
 " Use <Tab> and <S-Tab> to navigate through popup menu
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" Delete training whitespace
+nnoremap <Leader>wd :%s/\s\+$//e<CR>
 
 " Tree-sitter based folding
 set nofoldenable " start file unfolded
@@ -108,13 +99,31 @@ noremap <Space> za
 noremap <expr> <Leader><Space> &foldlevel ? 'zM' : 'zR'
 
 lua << EOF
+
+-- :Theme
+vim.api.nvim_create_user_command(
+  'Theme',
+  function()
+    if(vim.o.background == 'dark')
+    then
+      vim.o.background = 'light'
+      vim.api.nvim_command('colorscheme psionic')
+    else
+      vim.o.background = 'dark'
+      vim.api.nvim_command('colorscheme alchemist')
+    end
+  end,
+  {bang = true, desc = 'Toggle dark/light theme'}
+)
+
 -- highlight on yank
-vim.cmd [[
-  augroup YankHighlight
-    autocmd!
-    autocmd TextYankPost * silent! lua vim.highlight.on_yank()
-  augroup END
-]]
+vim.api.nvim_create_autocmd('TextYankPost', {
+  pattern = '*',
+  group = vim.api.nvim_create_augroup('YankHighlight', {clear = true}),
+  callback = function()
+    vim.highlight.on_yank()
+  end
+})
 
 -- Telescope
 require('telescope').setup {

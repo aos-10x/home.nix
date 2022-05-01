@@ -36,6 +36,7 @@ in
     tree
 
     # Infra tools
+    rage
     ansible
     awscli2
     packer
