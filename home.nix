@@ -38,8 +38,10 @@ in
     # Infra tools
     rage
     ansible
+    ansible-lint
     awscli2
     packer
+    teleport
     terraform
 
     # custom flakes
