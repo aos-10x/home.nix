@@ -64,7 +64,7 @@ _show_nix_and_jobs () {
   [[ "$n" != "" ]] && echo -e "[${n}]" || echo "";
 }
 
-PS1="\$(_show_nix_and_jobs \j)$GREEN[\u@\h]$CYAN\w$YELLOW\$(_show_git_branch)$CLEAR \$ "
+PS1="\$(_show_nix_and_jobs \j)$GREEN[\u@\h] $CYAN\w$YELLOW\$(_show_git_branch)$CLEAR \$ "
 
 # Some environment variables
 export SYSTEMD_LESS='FRXMK'; # allow journalctl to wrap long lines

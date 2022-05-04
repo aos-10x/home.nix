@@ -96,7 +96,7 @@ install_docker_dnf () {
   sudo usermod -aG docker $USER
 }
 
-#install_docker_dnf
+#install_docker_deb
 #install_nix
 install_home_manager
 sym_repo

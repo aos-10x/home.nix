@@ -26,12 +26,13 @@ bind l select-pane -R
 # Execute copy using Enter
 # Prefix + ] to paste
 setw -g mode-keys vi
+set -g copy-command 'wl-copy'
 # Begin selection in copy mode
 bind-key -T copy-mode-vi v send-keys -X begin-selection
 # Begin selection visual block
 bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
 # Yank selection and into system clipboard
-bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xclip -sel clip -i"
+bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel
 
 unbind-key -T copy-mode-vi H
 unbind-key -T copy-mode-vi L

@@ -22,8 +22,8 @@ in
   # Packages to install
   nixpkgs.config.allowUnfree = true;
   home.packages = with pkgs; [
+    # rust-analyzer # using LspInstall rust-analyzer
     python
-    # rust-analyzer
     nixpkgs-fmt
 
     curl
@@ -38,7 +38,6 @@ in
     # Infra tools
     rage
     ansible
-    ansible-lint
     awscli2
     packer
     teleport

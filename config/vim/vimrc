@@ -35,18 +35,14 @@ nnoremap <C-p> <Tab>
 set path+=**
 
 set nocp
-syntax on
-filetype plugin indent on
-
 set background=dark
 
-if !has('nvim')
+if (!has('nvim'))
+  syntax on
+  filetype plugin indent on
+
   finish
 endif
-
-" we use treesitter for syntax highlighting and filetype detection
-syntax off
-filetype plugin indent off
 
 " nvim-specific settings
 
@@ -75,7 +71,9 @@ call plug#begin(stdpath('data') . '/plugged')
 
 call plug#end()
 
-set termguicolors
+if (has("termguicolors"))
+  set termguicolors
+endif
 colorscheme alchemist
 
 let mapleader = ','
