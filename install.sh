@@ -43,13 +43,13 @@ sym_repo () {
   ln -s "$(realpath .)" ~/.config/nixpkgs
 }
 
-switch () {
+home_manager_switch () {
   echo "INFO: Running 'home-manager switch'"
 
   home-manager switch
 }
 
-install_docker () {
+install_docker_deb() {
   sudo apt update
   sudo apt install \
     ca-certificates \
@@ -71,8 +71,33 @@ install_docker () {
   sudo usermod -aG docker $USER
 }
 
-#install_docker
+install_docker_dnf () {
+  sudo dnf remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-selinux \
+                  docker-engine-selinux \
+                  docker-engine
+
+  sudo dnf -y install dnf-plugins-core
+  sudo dnf config-manager \
+    --add-repo \
+    https://download.docker.com/linux/fedora/docker-ce.repo
+
+  sudo dnf install docker-ce \
+		   docker-ce-cli \
+		   containerd.io \
+		   docker-compose-plugin
+
+  sudo usermod -aG docker $USER
+}
+
+#install_docker_dnf
 #install_nix
 install_home_manager
 sym_repo
-switch
+home_manager_switch

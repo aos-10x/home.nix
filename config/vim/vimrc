@@ -75,6 +75,7 @@ call plug#begin(stdpath('data') . '/plugged')
 
 call plug#end()
 
+set termguicolors
 colorscheme alchemist
 
 let mapleader = ','

@@ -23,7 +23,7 @@ in
   nixpkgs.config.allowUnfree = true;
   home.packages = with pkgs; [
     python
-    rust-analyzer
+    # rust-analyzer
     nixpkgs-fmt
 
     curl
@@ -49,7 +49,6 @@ in
   ];
 
   # program configs
-  # home.file.".ssh/id_rsa_yk.pub".source = ./config/ssh_id_rsa_yk.pub;
   # home.file.".ssh/config" = {
   #   source = pkgs.substituteAll {
   #     src = ./config/ssh_config;
@@ -57,8 +56,6 @@ in
   #     port = "${secrets.port}";
   #   };
   # };
-  # home.file.".gnupg/gpg-agent.conf".source = ./config/gpg-agent.conf;
-  # home.file.".gdbinit".source = ./config/gdbinit;
 
   home.file.".tmux.conf".source = ./config/tmux;
 
