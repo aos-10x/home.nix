@@ -259,6 +259,7 @@ local servers = {
   ['jedi_language_server'] = {},
   ['rust_analyzer'] = rust_analyzer,
   ['terraformls'] = {},
+  ['gopls'] = {},
 }
 
 require('nvim-lsp-installer').setup {}

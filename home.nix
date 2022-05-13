@@ -40,8 +40,10 @@ in
     ansible
     awscli2
     packer
-    teleport
     terraform
+
+    _1password
+    teleport
 
     # custom flakes
     (callPackage buildFromFlake { repo = "github:aos/gotors"; })
