@@ -44,6 +44,7 @@ in
 
     _1password
     teleport
+    mypaint
 
     # custom flakes
     (callPackage buildFromFlake { repo = "github:aos/gotors"; })

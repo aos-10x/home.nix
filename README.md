@@ -17,6 +17,10 @@ Alternatively, run `./install.sh`
 
 We will need the package `scdaemon` that provides smart card support for GPG.
 
+### Pen tablet
+
+`https://driverdl.huion.com/driver/Linux/HuionTablet_v15.0.0.80.202204090856.x86_64.deb`
+
 ### Secrets
 
 Secrets are stored in a `secrets.nix` file that does not get checked in. It
