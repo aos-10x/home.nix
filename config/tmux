@@ -21,12 +21,12 @@ bind j select-pane -D
 bind k select-pane -U
 bind l select-pane -R
 
-# More vim bindings for copy/paste
 # Enter copy mode using Prefix + [ and start copy using <Space> (q to exit)
-# Execute copy using Enter
-# Prefix + ] to paste
+# Execute copy using Enter, Prefix + ] to paste
+if-shell -b '[ "${WAYLAND_DISPLAY+1}" ]' \
+  "set -g copy-command 'wl-copy'" \
+  "set -g copy-command 'xsel -sel clip -i'"
 setw -g mode-keys vi
-set -g copy-command 'wl-copy'
 # Begin selection in copy mode
 bind-key -T copy-mode-vi v send-keys -X begin-selection
 # Begin selection visual block
