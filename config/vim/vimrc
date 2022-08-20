@@ -37,6 +37,8 @@ set path+=**
 set nocp
 set background=dark
 
+autocmd FileType go setlocal sw=8 sts=8 noexpandtab
+
 if (!has('nvim'))
   syntax on
   filetype plugin indent on
@@ -78,6 +80,11 @@ colorscheme alchemist
 
 let mapleader = ','
 set inccommand=nosplit
+
+nnoremap <Leader>y "+y
+vnoremap <Leader>y "+y
+nnoremap <Leader>p "+p
+vnoremap <Leader>p "+p
 
 set completeopt=menuone,noinsert,noselect
 " Use <Tab> and <S-Tab> to navigate through popup menu
@@ -143,6 +150,11 @@ require('telescope').setup {
         ['<C-o>'] = require('telescope.actions.layout').toggle_preview,
       }
     },
+  },
+  pickers = {
+    find_files = {
+      follow = true,
+    }
   },
 }
 

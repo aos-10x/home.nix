@@ -6,6 +6,7 @@ let
   secrets = import ./secrets.nix;
 
   python = import ./python;
+  # golang = import ./golang;
 in
 {
   home.stateVersion = "22.05";
@@ -23,8 +24,14 @@ in
   nixpkgs.config.allowUnfree = true;
   home.packages = with pkgs; [
     # rust-analyzer # using LspInstall rust-analyzer
+    # golang
     python
     nixpkgs-fmt
+
+    go_1_18
+    gopls
+    gotools
+    go-tools
 
     curl
     direnv
@@ -37,14 +44,20 @@ in
 
     # Infra tools
     rage
+    ipcalc
     ansible
     awscli2
     packer
     terraform
+    minikube
+    kubectl
+    ipcalc
+    kubernetes-helm-wrapped
 
+    postgresql_13
     _1password
-    teleport
-    mypaint
+    pkgsUnstable.teleport
+    vlc
 
     # custom flakes
     (callPackage buildFromFlake { repo = "github:aos/gotors"; })
