@@ -23,8 +23,8 @@
   # recursively traverse untracked directories to display all contents
   showUntrackedFiles = all
 
-[url "ssh://git@github.com/"]
-  insteadOf = https://github.com/
+[url "ssh://git@github.com/10XDev"]
+  insteadOf = https://github.com/10XDev
 
 [color]
   ui = auto

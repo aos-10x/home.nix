@@ -1,0 +1,2 @@
+zoom;https://zoom.us/client/latest/zoom_amd64.deb
+slack;https://downloads.slack-edge.com/releases/linux/4.27.156/prod/x64/slack-desktop-4.27.156-amd64.deb

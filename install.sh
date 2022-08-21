@@ -2,54 +2,15 @@
 
 # This script will run all the required steps to bring in our dotfiles!
 
-set -euo pipefail
+set -eu pipefail
 
-# Install nix
-install_nix () {
-  if command -v nix-shell &> /dev/null && \
-    nix-shell -p nix-info --run "nix-info -m" &> /dev/null; then
-    echo "Nix already installed... exiting."
-    return
+# Install docker
+install_docker () {
+  if command -v docker &> /dev/null && docker --version &> /dev/null; then
+    echo "[x] Docker installed"
+    return 0
   fi
 
-  echo "INFO: installing Nix..."
-  # We need to automate this
-  sh <(curl -L https://nixos.org/nix/install) --daemon
-}
-
-# Install home manager
-install_home_manager () {
-  echo "INFO: Installing home-manager..."
-
-  # Add Home Manager channel (Nixpkgs master or unstable)
-  nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-  nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs-unstable
-  nix-channel --update
-
-  # Need this if we're not on NixOS
-  if ! grep 'NAME="NixOS"' /etc/os-release; then
-    export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels
-  fi
-
-  # install Home Manager
-  nix-shell '<home-manager>' -A install
-}
-
-# Symlink repo
-sym_repo () {
-  echo "INFO: Symlinking repository to ~/.config/nixpkgs"
-
-  rm -rfv ~/.config/nixpkgs
-  ln -s "$(realpath .)" ~/.config/nixpkgs
-}
-
-home_manager_switch () {
-  echo "INFO: Running 'home-manager switch'"
-
-  home-manager switch
-}
-
-install_docker_deb() {
   sudo apt update
   sudo apt install \
     ca-certificates \
@@ -71,33 +32,80 @@ install_docker_deb() {
   sudo usermod -aG docker $USER
 }
 
-install_docker_dnf () {
-  sudo dnf remove docker \
-                  docker-client \
-                  docker-client-latest \
-                  docker-common \
-                  docker-latest \
-                  docker-latest-logrotate \
-                  docker-logrotate \
-                  docker-selinux \
-                  docker-engine-selinux \
-                  docker-engine
+# Install nix
+install_nix () {
+  if command -v nix-shell &> /dev/null && \
+    nix-shell -p nix-info --run "nix-info -m" &> /dev/null; then
+    echo "[x] Nix installed"
+    return 0
+  fi
 
-  sudo dnf -y install dnf-plugins-core
-  sudo dnf config-manager \
-    --add-repo \
-    https://download.docker.com/linux/fedora/docker-ce.repo
+  echo "INFO: installing Nix..."
+  # We need to automate this
+  sh <(curl -L https://nixos.org/nix/install) --daemon
 
-  sudo dnf install docker-ce \
-		   docker-ce-cli \
-		   containerd.io \
-		   docker-compose-plugin
+  # Enable flakes
+  mkdir -p ~/.config/nix/
+  cp "$(realpath config/nix.conf)" ~/.config/nix/nix.conf
 
-  sudo usermod -aG docker $USER
+  echo "Nix has been installed. Open a new shell and re-run the script to continue."
+  exit 0
 }
 
-#install_docker_deb
-#install_nix
-install_home_manager
-sym_repo
-home_manager_switch
+# Install home manager
+install_home_manager () {
+  # We are going to assume that nix is installed if we made it this far
+  if nix-env -q 'home-manager.*'; then
+    echo "[x] home-manager installed"
+    return 0
+  fi
+
+  echo "INFO: Installing home-manager..."
+
+  # Add Home Manager channel (Nixpkgs master or unstable)
+  nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+  nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs-unstable
+  nix-channel --update
+
+  # Need this if we're not on NixOS
+  if ! grep 'NAME="NixOS"' /etc/os-release; then
+    export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels
+  fi
+
+  # install Home Manager
+  nix-shell '<home-manager>' -A install
+}
+
+# Symlink repo
+symlink_repo () {
+  local link_path=~/.config/nixpkgs
+  local current_dir="$(realpath .)"
+  if [ "$(readlink -- "${link_path}")" = "${current_dir}" ]; then
+    echo "[x] Symlinked to ${link_path}"
+    return 0
+  fi
+
+  echo "INFO: Symlinking repository to $link_path"
+
+  rm -rfv "${link_path}"
+  ln -fs "$(realpath .)" "${link_path}"
+}
+
+hm_switch () {
+  read -e -p "Have you filled out 'secrets.nix' file? [Y/n]: " -i 'Y' secrets_file
+  if [ "${secrets_file}" == 'Y' ]
+    echo "INFO: Running 'home-manager switch'. Original files will be suffixed with .bak"
+
+    home-manager -b bak switch
+  fi
+}
+
+main () {
+  install_docker
+  install_nix
+  install_home_manager
+  symlink_repo
+  hm_switch
+}
+
+main

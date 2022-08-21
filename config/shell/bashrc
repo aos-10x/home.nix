@@ -39,6 +39,11 @@ export GPG_TTY=$(tty)
 #export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 #gpgconf --launch gpg-agent
 
+# Add ~/.local/bin to path
+if [ ":$PATH:" != *":~/.local/bin:"* ]; then
+  export PATH="~/.local/bin:${PATH}"
+fi
+
 # Prompt colors
 BRIGHT_BLUE="\[\e[34;1m\]"
 CYAN="\[\e[36m\]"

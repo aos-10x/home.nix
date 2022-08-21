@@ -25,6 +25,7 @@ in
   home.packages = with pkgs; [
     # rust-analyzer # using LspInstall rust-analyzer
     # golang
+    (callPackage (import ./pkgs/pop-launcher) {})
     python
     nixpkgs-fmt
 
