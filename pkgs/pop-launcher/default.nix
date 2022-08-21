@@ -1,3 +1,4 @@
+# Taken from https://github.com/NixOS/nixpkgs/pull/176303
 { rustPlatform
 , fetchFromGitHub
 , lib

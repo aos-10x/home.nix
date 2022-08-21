@@ -25,7 +25,7 @@ bind l select-pane -R
 # Execute copy using Enter, Prefix + ] to paste
 if-shell -b '[ "${WAYLAND_DISPLAY+1}" ]' \
   "set -g copy-command 'wl-copy'" \
-  "set -g copy-command 'xsel -sel clip -i'"
+  "set -g copy-command 'xclip -sel clip -i'"
 setw -g mode-keys vi
 # Begin selection in copy mode
 bind-key -T copy-mode-vi v send-keys -X begin-selection

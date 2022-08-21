@@ -1,6 +1,6 @@
 { pkgs ? import <nixpkgs> { } }:
 
-pkgs.mkShell {
+pkgs.mkDerivation {
   packages = with pkgs; [
     go
     gopls

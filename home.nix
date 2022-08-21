@@ -4,9 +4,7 @@ let
   buildFromFlake = { repo, system }: (builtins.getFlake repo).defaultPackage."${system}";
   pkgsUnstable = import <nixpkgs-unstable> { config.allowUnfree = true; };
   secrets = import ./secrets.nix;
-
   python = import ./python;
-  # golang = import ./golang;
 in
 {
   home.stateVersion = "22.05";
@@ -24,11 +22,11 @@ in
   nixpkgs.config.allowUnfree = true;
   home.packages = with pkgs; [
     # rust-analyzer # using LspInstall rust-analyzer
-    # golang
-    (callPackage (import ./pkgs/pop-launcher) {})
+    (callPackage ./pkgs/pop-launcher {})
     python
     nixpkgs-fmt
 
+    # (callPackage ./golang {})
     go_1_18
     gopls
     gotools
