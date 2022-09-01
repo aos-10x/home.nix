@@ -16,6 +16,7 @@
   # For saving normal diffs to email or later: 'git patch > changes.patch'
   patch = !git --no-pager diff --no-color
   alias = config --get-regexp alias
+  edit = !$EDITOR $(git ls-files -o -m --exclude-standard)
 
 [status]
   # display submodule rev change summaries in status
