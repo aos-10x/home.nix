@@ -1,10 +1,12 @@
 with import <nixpkgs> { };
 
-let
-  yawsso = import ./pkgs/yawsso { python39Pkgs = python39.pkgs; };
-in
 python39.withPackages (ps: with ps; [
+  (callPackage ./pkgs/yawsso { pythonPkgs = python39.pkgs; })
   pynvim
-  # jedi-language-server
-  yawsso
+
+  pylint
+  # flake8
+  python-lsp-black
+  pyls-isort
+  pylsp-mypy
 ])

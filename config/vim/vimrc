@@ -268,7 +268,7 @@ local rust_analyzer = {
 }
 
 local servers = {
-  ['jedi_language_server'] = {},
+  ['pylsp'] = {},
   ['rust_analyzer'] = rust_analyzer,
   ['terraformls'] = {},
   ['gopls'] = {},
