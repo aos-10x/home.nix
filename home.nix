@@ -52,10 +52,11 @@ in
     kubectl
     ipcalc
     kubernetes-helm-wrapped
+    k9s
 
     postgresql_13
     _1password
-    pkgsUnstable.teleport
+    # pkgsUnstable.teleport
     vlc
 
     # custom flakes
