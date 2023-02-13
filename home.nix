@@ -46,6 +46,7 @@ in
     ipcalc
     ansible
     awscli2
+    docker-compose
     packer
     terraform
     minikube
@@ -56,7 +57,7 @@ in
 
     postgresql_13
     _1password
-    # pkgsUnstable.teleport
+    pkgsUnstable.teleport
     vlc
 
     # custom flakes
