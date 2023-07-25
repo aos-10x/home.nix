@@ -1,4 +1,6 @@
-with import <nixpkgs> { };
+{ pkgs, ... }:
+
+with pkgs;
 
 python39.withPackages (ps: with ps; [
   (callPackage ./pkgs/yawsso { pythonPkgs = python39.pkgs; })

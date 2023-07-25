@@ -1,10 +1,14 @@
 { config, pkgs, ... }:
 
 let
-  buildFromFlake = { repo, system }: (builtins.getFlake repo).defaultPackage."${system}";
-  pkgsUnstable = import <nixpkgs-unstable> { config.allowUnfree = true; };
+  buildFromFlake = { repo, system }: (builtins.getFlake repo).packages."${system}".default;
+  pkgsUnstable = import (builtins.fetchGit {
+    name = "nixpkgs-unstable";
+    url = "https://github.com/NixOS/nixpkgs/";
+    ref = "refs/heads/nixpkgs-unstable";
+  }) { config.allowUnfree = true; };
   secrets = import ./secrets.nix;
-  python = import ./python;
+  python = import ./python { pkgs = pkgs; };
 in
 {
   home.stateVersion = "22.05";
@@ -22,7 +26,7 @@ in
   nixpkgs.config.allowUnfree = true;
   home.packages = with pkgs; [
     # rust-analyzer # using LspInstall rust-analyzer
-    (callPackage ./pkgs/pop-launcher {})
+    pop-launcher
     python
     nixpkgs-fmt
 
@@ -40,6 +44,10 @@ in
     tealdeer
     tmux
     tree
+    pre-commit
+
+    # nice things
+    kolourpaint
 
     # Infra tools
     rage
@@ -49,15 +57,17 @@ in
     docker-compose
     packer
     terraform
+    terraform-docs
     minikube
     kubectl
     ipcalc
     kubernetes-helm-wrapped
     k9s
+    jfrog-cli
 
     postgresql_13
     _1password
-    pkgsUnstable.teleport
+    teleport_11
     vlc
 
     # custom flakes

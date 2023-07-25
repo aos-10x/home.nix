@@ -29,29 +29,9 @@ yk_gpg_fix () {
   gpg --card-status > /dev/null
 }
 
-#note () {
-#  local notepad_file='/home/aos/.notepad'
-#  local dt="$(date -Iseconds)"
-#
-#  # Print last 5 commands
-#  if [ "$#" -eq 0 ]
-#  then
-#    grep -v -e '^#' $notepad_file | tail -n 5
-#    return 0
-#  fi
-#
-#  # Capture date
-#  echo "# $dt" >> $notepad_file
-#
-#  # Save last command
-#  if [ "$1" == '.' ]
-#  then
-#    echo "$(history | tail -2 | head -1)" >> $notepad_file
-#    return 0
-#  fi
-#
-#  # Save command passed in as argument
-#  echo "$@" >> $notepad_file
-#}
+# TODO
+tp () {
+  local command='tsh --proxy=$TP_PROXY ec2-user@'
+}
 
 # vim: set ft=sh:
