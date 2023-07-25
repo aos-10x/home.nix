@@ -78,7 +78,7 @@ install_home_manager () {
 
 # Symlink repo
 symlink_repo () {
-  local link_path=~/.config/nixpkgs
+  local link_path=~/.config/home-manager
   local current_dir="$(realpath .)"
   if [ "$(readlink -- "${link_path}")" = "${current_dir}" ]; then
     echo "[x] Symlinked to ${link_path}"
@@ -93,7 +93,7 @@ symlink_repo () {
 
 hm_switch () {
   read -e -p "Have you filled out 'secrets.nix' file? [Y/n]: " -i 'Y' secrets_file
-  if [ "${secrets_file}" == 'Y' ]
+  if [ "${secrets_file}" == 'Y' ]; then
     echo "INFO: Running 'home-manager switch'. Original files will be suffixed with .bak"
 
     home-manager -b bak switch
@@ -105,7 +105,7 @@ main () {
   install_nix
   install_home_manager
   symlink_repo
-  hm_switch
+  # hm_switch
 }
 
 main
