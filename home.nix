@@ -93,4 +93,6 @@ in
   };
 
   home.file.".config/nix/nix.conf".source = ./config/nix.conf;
+
+  news.display = "silent";
 }
