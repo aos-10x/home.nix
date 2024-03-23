@@ -31,7 +31,18 @@ yk_gpg_fix () {
 
 # TODO
 tp () {
-  local command='tsh --proxy=$TP_PROXY ec2-user@'
+  local tp_proxy="${1:-teleport}"
+  local tp_host="${2:-bespin1}"
+  local tp_user
+
+  if [ tp_proxy = "teleport" ]; then
+    tp_user="awsen.dabbagh"
+  else
+    tp_user="ec2-user"
+  fi
+  local command="TERM=xterm-256color tsh --proxy=${tp_proxy}teleport.txgmesh.net ssh -A ${tp_user}@${tp_host}"
+
+  echo "${command}"
 }
 
 # vim: set ft=sh:

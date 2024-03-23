@@ -101,9 +101,9 @@ hm_switch () {
 }
 
 main () {
-  install_docker
-  install_nix
-  install_home_manager
+  # install_docker
+  # install_nix
+  # install_home_manager
   symlink_repo
   # hm_switch
 }

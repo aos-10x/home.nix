@@ -4,7 +4,6 @@ set showmode
 set title
 set hidden
 set autoread
-set textwidth=79
 
 set cursorline
 set backspace=indent,eol,start
@@ -35,14 +34,14 @@ nnoremap <C-p> <Tab>
 set path+=**
 
 set nocp
-set background=dark
 
-autocmd FileType go setlocal sw=8 sts=8 noexpandtab
+set background=dark
+syntax off
+filetype plugin indent off
 
 if (!has('nvim'))
   syntax on
   filetype plugin indent on
-
   finish
 endif
 
@@ -62,37 +61,39 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'nvim-treesitter/nvim-treesitter-textobjects'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
-  Plug 'justinmk/vim-dirvish'
-  Plug 'tpope/vim-fugitive'
-  Plug 'tpope/vim-surround'
+  Plug 'justinmk/vim-dirvish' " filepaths
+  Plug 'tpope/vim-fugitive' " Git
+  Plug 'tpope/vim-surround' " handy text object surround mappings
+  Plug 'tpope/vim-unimpaired'
+  Plug 'tpope/vim-sleuth' " For indent - treesitter indent isn't great
 
-  "Plug 'cocopon/iceberg.vim'
-  "Plug 'kyazdani42/blue-moon'
   Plug 'habamax/vim-alchemist' " Dark background
-  Plug 'habamax/vim-psionic' " Light background
+  Plug 'aos/vim-aeon' " Light background
+  Plug 'aos/vim-ascetic' " monochrome
 
 call plug#end()
 
 if (has("termguicolors"))
   set termguicolors
 endif
-colorscheme alchemist
+colorscheme ascetic
 
 let mapleader = ','
 set inccommand=nosplit
 
+" Copy/paste to/from system clipboard
 nnoremap <Leader>y "+y
 vnoremap <Leader>y "+y
 nnoremap <Leader>p "+p
 vnoremap <Leader>p "+p
 
+" Delete trailing whitespace
+nnoremap <silent> <Leader>wd :%s/\s\+$//e<CR>
+
 set completeopt=menuone,noinsert,noselect
 " Use <Tab> and <S-Tab> to navigate through popup menu
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-" Delete training whitespace
-nnoremap <Leader>wd :%s/\s\+$//e<CR>
 
 " Tree-sitter based folding
 set nofoldenable " start file unfolded
@@ -106,6 +107,19 @@ noremap <expr> <Leader><Space> &foldlevel ? 'zM' : 'zR'
 
 lua << EOF
 
+-- If argument passed in, insert into buffer in a new line
+vim.api.nvim_create_user_command(
+  'Notes',
+  function(opts)
+    if (opts.args) then
+      vim.cmd(string.format("normal! Go%s", opts.args))
+    else
+      vim.cmd("normal! G")
+    end
+  end,
+  {nargs = '?'}
+)
+
 -- :Theme
 vim.api.nvim_create_user_command(
   'Theme',
@@ -113,7 +127,7 @@ vim.api.nvim_create_user_command(
     if(vim.o.background == 'dark')
     then
       vim.o.background = 'light'
-      vim.api.nvim_command('colorscheme psionic')
+      vim.api.nvim_command('colorscheme aeon')
     else
       vim.o.background = 'dark'
       vim.api.nvim_command('colorscheme alchemist')
@@ -161,8 +175,10 @@ require('telescope').setup {
 --Add telescope shortcuts
 local tele_opts = { noremap = true, silent = true }
 vim.api.nvim_set_keymap('n', '<Tab>', [[<cmd>lua require('telescope.builtin').buffers()<CR>]], tele_opts)
-vim.api.nvim_set_keymap('n', '<leader>f', [[<cmd>lua require('telescope.builtin').find_files()<CR>]], tele_opts)
-vim.api.nvim_set_keymap('n', '<leader>g', [[<cmd>lua require('telescope.builtin').live_grep()<CR>]], tele_opts)
+vim.api.nvim_set_keymap('n', '<leader>ff', [[<cmd>lua require('telescope.builtin').find_files()<CR>]], tele_opts)
+vim.api.nvim_set_keymap('n', '<leader>fg', [[<cmd>lua require('telescope.builtin').live_grep()<CR>]], tele_opts)
+vim.api.nvim_set_keymap('n', '<leader>fc', [[<cmd>lua require('telescope.builtin').git_commits()<CR>]], tele_opts)
+vim.api.nvim_set_keymap('n', '<leader>fb', [[<cmd>lua require('telescope.builtin').git_bcommits()<CR>]], tele_opts)
 
 -- Treesitter configs
 require('nvim-treesitter.configs').setup {
@@ -180,6 +196,7 @@ require('nvim-treesitter.configs').setup {
   },
   indent = {
     enable = true,
+    disable = { "yaml" },
   },
   textobjects = {
     select = {
@@ -200,7 +217,18 @@ require('nvim-treesitter.configs').setup {
 }
 
 -- LSP global
-local on_attach = function(client, bufnr)
+-- Remove sign column for Lsp diagnostics and recolor the number instead
+vim.o.signcolumn = "no"
+vim.fn.sign_define("DiagnosticSignError",
+  { text = "E", texthl = "DiagnosticSignError", numhl = "DiagnosticSignError" })
+vim.fn.sign_define("DiagnosticSignWarn",
+  { text = "W", texthl = "DiagnosticSignWarn", numhl = "DiagnosticSignWarn" })
+vim.fn.sign_define("DiagnosticSignInfo",
+  { text = "I", texthl = "DiagnosticSignInfo", numhl = "DiagnosticSignInfo" })
+vim.fn.sign_define("DiagnosticSignHint",
+  { text = "H", texthl = "DiagnosticSignHint", numhl = "DiagnosticSignHint" })
+
+local lsp_on_attach = function(client, bufnr)
   -- Mappings
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -224,8 +252,8 @@ local on_attach = function(client, bufnr)
   vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
 end
 
-local defaults = {
-  on_attach = on_attach,
+local lsp_defaults = {
+  on_attach = lsp_on_attach,
   flags = {
     debounce_text_changes = 200,
   },
@@ -251,7 +279,7 @@ local defaults = {
   }
 }
 
-local rust_analyzer = {
+local rust_analyzer_config = {
   settings = {
     ["rust-analyzer"] = {
       cargo = {
@@ -267,17 +295,50 @@ local rust_analyzer = {
   }
 }
 
-local servers = {
-  ['pylsp'] = {},
-  ['rust_analyzer'] = rust_analyzer,
+lspconfig_util = require('lspconfig.util')
+
+local pylsp_config = {
+  root_dir = function(fname)
+    local root_files = {
+      'pyproject.toml',
+      'setup.py',
+      'setup.cfg',
+      'requirements.txt',
+      'Pipfile',
+    }
+    return lspconfig_util.root_pattern(unpack(root_files))(fname) or
+           lspconfig_util.find_git_ancestor(fname)
+  end,
+  single_file_support = true,
+
+  settings = {
+    pylsp = {
+      configurationSources = { "flake8" },
+      plugins = {
+        flake8 = { enabled = true },
+        pycodestyle = { enabled = false },
+        mccabe = { enabled = false },
+        pyflakes = { enabled = false },
+      }
+    }
+  }
+}
+
+local lsp_servers = {
+  ['pylsp'] = pylsp_config,
+  ['rust_analyzer'] = rust_analyzer_config,
   ['terraformls'] = {},
   ['gopls'] = {},
 }
 
-require('nvim-lsp-installer').setup {}
-
+require('nvim-lsp-installer').setup({
+  -- ensure_installed = vim.tbl_keys(lsp_servers),
+  -- automatically detect which servers to install
+  -- (based on which servers are set up via lspconfig)
+  automatic_installation = false,
+})
 local nvim_lsp = require('lspconfig')
-for server, config in pairs(servers) do
-  nvim_lsp[server].setup(vim.tbl_deep_extend("force", defaults, config))
+for server, config in pairs(lsp_servers) do
+  nvim_lsp[server].setup(vim.tbl_deep_extend("force", lsp_defaults, config))
 end
 EOF

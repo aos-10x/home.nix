@@ -33,7 +33,10 @@
   editor = nvim
 [diff]
   tool = vimdiff
+  algorithm = histogram
 [pull]
   ff = only
+[push]
+  default = current
 [gpg]
   program = /usr/bin/gpg
